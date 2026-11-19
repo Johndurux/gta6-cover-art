@@ -3,21 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Poster — cover art from your own photos</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <span class="wordmark">VICE POSTER</span>
+  <span class="topbar-sub">six-panel cover art maker</span>
+  <span class="topbar-note">photos are read on this machine and never uploaded</span>
+</header>
+
+<main class="studio">
+  <aside class="controls">
+    <section class="card">
+      <h2 class="card-title"><span class="step">1</span> Photo</h2>
+      <label class="dropzone" id="dropzone">
+        <input id="photo-input" type="file" accept="image/*" multiple>
+        <span class="dropzone-title">Drop photos</span>
+        <span class="dropzone-sub">or click to pick — each one fills a panel</span>
+      </label>
+      <div class="filmstrip" id="filmstrip" aria-label="Loaded photos"></div>
+      <div class="row">
+        <button id="fill-all" class="ghost" type="button">Fill every panel</button>
+        <button id="reset-frame" class="ghost" type="button">Re-centre</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title"><span class="step">2</span> Frame</h2>
+      <div class="chips" id="panel-chips"></div>
+      <div class="row">
+        <button id="swap-panel" class="ghost" type="button">Swap with next</button>
+        <button id="mirror-panel" class="ghost" type="button">Mirror</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title"><span class="step">3</span> Caption</h2>
+      <label class="field">Title <input id="title-input" type="text" maxlength="24" autocomplete="off" spellcheck="false"></label>
+      <label class="field">Subtitle <input id="subtitle-input" type="text" maxlength="46" autocomplete="off" spellcheck="false"></label>
+      <label class="field">Credit line <input id="credit-input" type="text" maxlength="92" autocomplete="off" spellcheck="false"></label>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title"><span class="step">4</span> Export</h2>
+      <div class="size-row" id="size-row" data-size-row></div>
+      <button id="export-button" class="primary" type="button">Export PNG</button>
+      <p class="status" id="status" role="status"></p>
+    </section>
+  </aside>
+
+  <section class="stage">
+    <div class="preview" id="preview-wrap">
+      <canvas id="poster" width="1080" height="1350" aria-label="Cover preview"></canvas>
+      <div class="handles" id="handles" aria-hidden="true"></div>
+      <img id="result-image" class="result-image" alt="The exported cover, shown at the size it was written">
+    </div>
+    <p class="stage-hint" id="stage-hint">drag to pan · scroll to zoom · grab a panel to reframe it</p>
+    <div class="ribbon" id="ribbon">
+      <span id="ribbon-file">cover.png</span>
+      <span id="ribbon-meta">1080 × 1350 · PNG</span>
+    </div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <aside class="result" id="result-panel">
+    <h2 class="card-title">Exported PNG</h2>
+    <p class="result-file" id="result-file">—</p>
+    <p class="result-meta" id="result-meta">—</p>
+    <div class="size-row" id="result-sizes" data-size-row></div>
+    <a class="primary" id="download-link" download>Download PNG</a>
+    <button class="ghost" id="back-to-editor" type="button">Back to editing</button>
+    <p class="hint">Every export is drawn again at full size, never scaled up from the preview.</p>
+  </aside>
 </main>
+
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>

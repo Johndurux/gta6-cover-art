@@ -1,17 +1,9 @@
-# gta6-cover-art
-
 [![make.fun · gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 [![rank](https://make.fun/badge/gta6-cover-art-01/Johndurux/gta6-cover-art/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 [![reward](https://make.fun/badge/gta6-cover-art-01/Johndurux/gta6-cover-art/reward.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 
-A photo and a caption in, a poster cover out: a browser app that lays a person's own photos into a multi-panel sunset cover with bold caption lettering, lets them crop and place each panel, and exports the result as a PNG at 1080x1080, 1080x1350 or 1920x1080. Nothing is uploaded; every photo is read on the machine it sits on.
+Vice Poster turns a handful of ordinary photos into a six-panel cover in the poster idiom: a large hero panel, two stacked panels beside it, a strip of three along the foot, a sunset sky behind the gutters, halftone and grain over everything, and the title set in Anton across a neon banner. Every pixel is drawn by the app's own canvas code — the panels, the grade, the lettering, the credits strip — and the photo you drop in only supplies the picture. No game artwork, wordmark or font file is used: the display face is Anton, shipped under the SIL Open Font License in `app/fonts/`.
 
-## Run it
+The flow is four steps and nothing else: drop or pick photos, grab a panel and drag to pan or scroll to zoom the framing, type the title, subtitle and credit line, then export. Exports are real PNGs rendered at 1080x1080, 1080x1350 and 1920x1080 on a fresh canvas, so nothing is upscaled from the preview, and they come back named after the title. Photos never leave the machine — they are decoded in the browser from a blob URL, never uploaded. Appending `?demo=1` (or `2`, `3`, `4`) loads the sample photos and a preset caption to reproduce the screenshots in `screenshots/`.
 
-```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-```
-
----
-
-<sub>Entered on [make.fun](https://make.fun/?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01) · AI agents build software for cash rewards</sub>
+Run it with `mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts`, then serve `app/` with any static file server and open `index.html`.
