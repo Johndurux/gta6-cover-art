@@ -1,98 +1,107 @@
-// demo.js — the fixed scenes behind ?demo=1..4. Each one names the caption, the post size, the view to open and
-// the crop of the sample photo that goes in each panel, so the screenshots in screenshots/ can be taken again at
-// any time and the poster always shows the same faces in the same frames.
+// demo.js — the fixed scenes behind ?demo=1..4. Each names the caption, the post size, the view to open, the ink
+// settings and the crop of the sample photo that goes in each cut-out, so the screenshots in screenshots/ can be
+// taken again at any time and the poster always shows the same faces in the same frames.
 
 const SAMPLE_DIR = './samples';
 
-/** Loads one of the kit's sample photos, decoded and ready to draw. */
+/** Resolves once an image element has its pixels, whether or not decode() is available to wait on. */
+export function whenDecoded(image) {
+  if (image.complete && image.naturalWidth) return Promise.resolve(image);
+  return new Promise((resolve, reject) => {
+    image.addEventListener('load', () => resolve(image), { once: true });
+    image.addEventListener('error', () => reject(new Error(`could not read ${image.src}`)), { once: true });
+  });
+}
+
+/** Loads one of the app's sample photos, decoded and ready to draw. */
 export async function loadSamplePhoto(name) {
   const image = new Image();
   image.src = `${SAMPLE_DIR}/${name}.jpg`;
-  await image.decode();
+  await whenDecoded(image);
   return image;
 }
 
-/** A framed sample: the file, and where its subject sits (the woman's face is at 0.58, 0.27; the fisher's at 0.43, 0.29). */
+/** A framed sample: the file, and where its subject sits (the woman's face is at 0.56, 0.23; the fisher's at 0.44, 0.28). */
 function framed(sample, focusX, focusY, zoom = 1, flip = false) {
   return [sample, { focusX, focusY, zoom, flip }];
 }
 
-const CREDIT = 'A LAGOON PICTURES RELEASE · SHOT ON HOME SOIL · ALL PHOTOS THE POSTER MAKER’S OWN';
+const CREDIT = 'A LAGOON PICTURES RELEASE · SHOT ON HOME SOIL · EVERY PHOTO THE POSTER MAKER’S OWN';
+
+const CAST = {
+  hero: framed('boulevard', 0.56, 0.3, 1.02),
+  leftTop: framed('pier', 0.55, 0.75, 2.4, true),
+  rightTop: framed('pier', 0.44, 0.3, 1.15, true),
+  rightLow: framed('boulevard', 0.6, 0.34, 1.55),
+  leftLow: framed('pier', 0.5, 0.42, 1.35),
+  bandSticker: framed('boulevard', 0.26, 0.74, 2.1),
+};
 
 /**
- * The demo plans. `view` is 'cover' (the exported poster filling the frame), 'editor' or 'result'; `panels`
- * maps a panel id to a framed sample.
+ * The demo plans. `view` is 'editor', 'result' (the export result view) or 'cover' (the poster full-bleed);
+ * `panels` maps a cut-out id to a framed sample.
  */
 export function demoPlan(mode) {
   if (mode === '2') {
     return {
       view: 'editor',
       size: '1080x1350',
-      selected: 'main',
-      title: 'VICE LAGOON',
+      title: 'NEON PARADISE',
       subtitle: 'A SUNSET CRIME STORY',
       credit: CREDIT,
-      panels: {
-        main: framed('boulevard', 0.55, 0.42),
-        rightTop: framed('pier', 0.46, 0.42, 1.05, true),
-        rightLow: framed('boulevard', 0.56, 0.34, 1.35),
-        strip1: framed('pier', 0.45, 0.46, 1.2),
-        strip2: framed('boulevard', 0.58, 0.3, 1.5, true),
-        strip3: framed('pier', 0.52, 0.44, 1.7),
-      },
+      comic: false,
+      compare: true,
+      panels: CAST,
     };
   }
 
   if (mode === '3') {
     return {
-      view: 'result',
-      size: '1080x1080',
+      view: 'cover',
+      size: '1920x1080',
       title: 'LAST NIGHT ON THE STRIP',
       subtitle: 'NOBODY LEAVES BEFORE SUNRISE',
       credit: CREDIT,
+      comic: true,
       panels: {
-        main: framed('pier', 0.44, 0.4),
-        rightTop: framed('boulevard', 0.58, 0.28, 1.15),
-        rightLow: framed('pier', 0.42, 0.3, 1.5),
-        strip1: framed('boulevard', 0.55, 0.6, 1.2),
-        strip2: framed('pier', 0.62, 0.5, 1.35),
-        strip3: framed('boulevard', 0.6, 0.3, 1.6),
+        hero: framed('boulevard', 0.56, 0.29, 1.06),
+        leftTop: framed('pier', 0.52, 0.78, 2.6, true),
+        rightTop: framed('pier', 0.43, 0.3, 1.2, true),
+        rightLow: framed('boulevard', 0.58, 0.32, 1.5),
+        leftLow: framed('pier', 0.6, 0.62, 1.9, true),
+        bandSticker: framed('boulevard', 0.24, 0.72, 2.2),
       },
     };
   }
 
   if (mode === '4') {
     return {
-      view: 'cover',
-      size: '1080x1350',
+      view: 'result',
+      size: '1080x1080',
       title: 'PIER PRESSURE',
       subtitle: 'THE TIDE BRINGS EVERYTHING BACK',
-      credit: 'A LAGOON PICTURES RELEASE · SHOT AT THE END OF THE BOARDWALK · ALL PHOTOS THE POSTER MAKER’S OWN',
+      credit: 'A LAGOON PICTURES RELEASE · SHOT AT THE END OF THE BOARDWALK · EVERY PHOTO THE POSTER MAKER’S OWN',
+      comic: true,
+      exportAll: true,
       panels: {
-        main: framed('pier', 0.44, 0.42),
-        rightTop: framed('boulevard', 0.6, 0.26, 1.25),
-        rightLow: framed('pier', 0.55, 0.45, 1.25),
-        strip1: framed('boulevard', 0.58, 0.3, 1.5),
-        strip2: framed('pier', 0.66, 0.42, 1.3),
-        strip3: framed('boulevard', 0.62, 0.28, 1.7, true),
+        hero: framed('pier', 0.44, 0.3, 1.1),
+        leftTop: framed('boulevard', 0.2, 0.7, 2.4, true),
+        rightTop: framed('boulevard', 0.56, 0.26, 1.4),
+        rightLow: framed('pier', 0.46, 0.42, 1.3),
+        leftLow: framed('boulevard', 0.5, 0.55, 1.8, true),
+        bandSticker: framed('pier', 0.5, 0.4, 1.6),
       },
     };
   }
 
   return {
-    view: 'cover',
-    size: '1920x1080',
-    title: 'VICE LAGOON',
+    view: 'editor',
+    size: '1080x1350',
+    title: 'NEON PARADISE',
     subtitle: 'A SUNSET CRIME STORY',
     credit: CREDIT,
-    panels: {
-      main: framed('boulevard', 0.55, 0.3),
-      rightTop: framed('pier', 0.42, 0.3, 1.25, true),
-      rightLow: framed('boulevard', 0.14, 0.4, 1.6),
-      strip1: framed('boulevard', 0.62, 0.28, 2.4, true),
-      strip2: framed('pier', 0.62, 0.62, 1.5),
-      strip3: framed('boulevard', 0.2, 0.82, 1.5, true),
-    },
+    comic: true,
+    panels: CAST,
   };
 }
 
