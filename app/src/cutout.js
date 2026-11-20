@@ -1,6 +1,5 @@
-// cutout.js — the sticker shapes the photos are cut into. A cut-out is not a rectangle: its edge is a rounded
-// blob walked segment by segment with a seeded wobble, so it reads as torn from a print and pasted down. Each one
-// carries a heavy black border and a drop shadow, which is what lifts it off the poster behind it.
+// cutout.js — the sticker a photo is glued into: a rounded blob walked with a per-cut-out seeded wobble so the
+// torn edge stays put, plus the black rim, drop shadow and inner paper line that lift it off the poster.
 
 import { seeded } from './texture.js';
 

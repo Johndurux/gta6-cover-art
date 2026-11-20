@@ -1,6 +1,6 @@
-// photoPanels.js — one cut-out's worth of photo: the framing state (zoom and the point of the photo that sits in
-// the middle), the maths that keeps the photo covering its shape while it is dragged, and the raw draw the comic
-// pass reads its pixels from.
+// photoPanels.js — one photo inside one cut-out: the framing state (zoom, the point of the photo held in the
+// middle, the mirror), the clamp that keeps the image covering its shape while it is dragged or zoomed, and the
+// plain draw whose pixels the comic pass reads.
 
 import { paintHalftone } from './texture.js';
 

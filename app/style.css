@@ -1,5 +1,7 @@
-/* style.css — the studio around the poster: a neon proofing room, photos and ink down the left, the poster on the
-   light table and the export drawer on the right. Every pixel of the artwork itself is drawn on the canvas. */
+/* style.css — the studio around the poster: a dark proofing room with a neon look. Photos, ink and the caption
+   sit in the left rail, the live poster on the canvas in the middle, sizes and export on the right; none of the
+   artwork is CSS — the cover itself is drawn entirely by the canvas. All lengths are as authored no matter the
+   window size; the app is a desktop tool. */
 
 @font-face {
   font-family: 'Anton';

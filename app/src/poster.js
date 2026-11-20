@@ -1,7 +1,5 @@
-// poster.js — the composition: a sunset sky, five sticker cut-outs layered over it, a logo band across the
-// foot and a credit strip under that. Every length comes off the short side, so the square, the portrait and the
-// wide cover are the same poster at three shapes. drawPoster is the one entry point the preview, the export and
-// the demo screenshots all go through.
+// poster.js — the cover itself. It fixes the layout off the short side (so square, portrait and wide are the same
+// poster at three shapes) and drawPoster is the one entry point the preview, the export and the demos call.
 
 import { INK, paintGrain, paintHalftone, paintSkyWash, paintSunBloom, paintVignette, seeded } from './texture.js';
 import { drawEmptyCutout, drawPhotoCover } from './photoPanels.js';
@@ -73,7 +71,7 @@ export function coverLayout(w, h) {
     index,
     name: SLOT_NAMES[index],
     w: Math.round(slot.w * (aspect === 'wide' ? w : unit)),
-    h: Math.round(slot.h * (aspect === 'wide' ? h : h)),
+    h: Math.round(slot.h * h),
   }));
 
   return { width: w, height: h, unit, aspect, band, credits, slots, gutter: unit * 0.02 };

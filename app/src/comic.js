@@ -1,9 +1,5 @@
-// comic.js — the GTA-ify pass: a photo goes in and a drawn-looking cut-out comes out.
-//
-// The order is the one a screen printer would use: a warm sunset grade (an S-curve plus lifted saturation),
-// a posterise to six levels a channel, a Sobel edge pass that lays a thick near-black outline over the strong
-// edges, a 45-degree halftone screen over the midtones, and a soft vignette to seat it. Everything is a pixel
-// operation on one offscreen canvas, so the preview and the full-size export run the same code.
+// comic.js — one photo through the printer's shop: a warm sunset grade, a six-level posterise, a thick Sobel
+// outline, a 45-degree halftone screen and a vignette, all pixel operations on one cached offscreen canvas.
 
 import { drawPhotoCover } from './photoPanels.js';
 
@@ -54,6 +50,7 @@ export function comicCanvas(shot, w, h) {
   const light = new Float32Array(count);
 
   // 1 + 2: warm sunset grade, then posterise. The curve is gentle; the tone ladder does the drawing.
+  const step = 1 / (LEVELS - 1);
   for (let i = 0; i < count; i += 1) {
     const p = i * 4;
     const r0 = px[p] / 255;
@@ -74,7 +71,6 @@ export function comicCanvas(shot, w, h) {
     b += -0.10 * warm + 0.13 * shade;
 
     // Contrast curve about the midtones, then the six-level ladder.
-    const step = 1 / (LEVELS - 1);
     r = Math.round(clamp01(clamp01(0.5 + (r - 0.5) * 1.12)) / step) * step;
     g = Math.round(clamp01(clamp01(0.5 + (g - 0.5) * 1.12)) / step) * step;
     b = Math.round(clamp01(clamp01(0.5 + (b - 0.5) * 1.12)) / step) * step;

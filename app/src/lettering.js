@@ -1,6 +1,6 @@
-// lettering.js — the words: the logo band along the foot (title in Anton, skewed, white with a black outline and
-// a magenta offset shadow, subtitle in small caps under it) and the credit strip with its filler legal lines.
-// The title is fitted to the band every time, so a long title still lands inside the frame.
+// lettering.js — the words on the poster: the Anton title lockup on the logo band (skewed, outlined, magenta
+// plate behind it), the subtitle under it and the credit strip's two legal rows. It also owns the glyph-by-glyph
+// draw that gives tracked letter spacing, and the wait for the display face before the first paint.
 
 import { paintGrain, paintHalftone } from './texture.js';
 

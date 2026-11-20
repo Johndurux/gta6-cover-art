@@ -1,5 +1,5 @@
-// exporter.js — writing the PNG. The poster is re-rendered on a fresh canvas at the requested size, never
-// scaled up from the preview, then handed back as a blob with a filename taken from the title.
+// exporter.js — turning the scene on screen into a file: the cover is drawn again on a fresh canvas at the exact
+// post size (never scaled up from the preview), encoded to a PNG blob, and named after its title.
 
 import { drawPoster, POSTER_SIZES } from './poster.js';
 
@@ -43,16 +43,4 @@ export function formatBytes(bytes) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-/** Saves a blob under `filename` by clicking a temporary link. */
-export function downloadBlob(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }

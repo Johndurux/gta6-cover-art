@@ -1,6 +1,5 @@
-// main.js — the studio wiring: photos in, cut-outs framed and dragged, the comic ink dialled by hand, the caption
-// typed live and the PNG written at three sizes. It owns the state, paints the preview from poster.js, and turns a
-// pointer drag into either a moved sticker or a reframed photo.
+// main.js — the editor's wiring. It owns the whole app state (caption, ink and border settings, whose cut-out is
+// selected) and every control, drag and scroll gesture in index.html ends here in a repaint or a PNG export.
 
 import { POSTER_SIZES, coverLayout, drawPoster, pickSlot, placedSlots, slotBox } from './poster.js';
 import { createShot, panShot, resetShot, zoomShot } from './photoPanels.js';

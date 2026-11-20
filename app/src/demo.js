@@ -1,6 +1,5 @@
-// demo.js — the fixed scenes behind ?demo=1..4. Each names the caption, the post size, the view to open, the ink
-// settings and the crop of the sample photo that goes in each cut-out, so the screenshots in screenshots/ can be
-// taken again at any time and the poster always shows the same faces in the same frames.
+// demo.js — the four canned scenes behind ?demo=1..4. Each plan fixes the caption, post size, view and the crop
+// of which sample photo sits in which cut-out, so the poster always shows the same faces in the same frames.
 
 const SAMPLE_DIR = './samples';
 
